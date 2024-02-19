@@ -46,7 +46,8 @@ class Post(CoreModel):
 
 class Comment(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name="comments"
     )
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="post_comments"
