@@ -1,10 +1,11 @@
 from django.db.models import Count
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import generics, views, status, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.token_blacklist.models import (
     OutstandingToken,
@@ -12,8 +13,15 @@ from rest_framework_simplejwt.token_blacklist.models import (
 )
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from user.serializers import UserSerializer, UserDetailSerializer, UserProfileDetailSerializer, \
-    UserProfileListSerializer, UserProfileImageSerializer, UserProfileSerializer, UserProfileFollowSerializer
+from user.serializers import (
+    UserSerializer,
+    UserDetailSerializer,
+    UserProfileDetailSerializer,
+    UserProfileListSerializer,
+    UserProfileImageSerializer,
+    UserProfileSerializer,
+    UserProfileFollowSerializer
+)
 
 from social_media_core.permissions import IsOwnerOrReadOnly
 from user.models import UserProfile, UserProfileFollow
