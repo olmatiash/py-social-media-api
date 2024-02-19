@@ -1,36 +1,10 @@
 from django.contrib import admin
 
-from social_media_core.models import HashTag, Post, Like, Comment
-from user.admin import CoreModelAdmin
+from social_media_core.models import HashTag, Post, Comment
+
+from social_media_core.models import Like
 
 admin.site.register(HashTag)
+admin.site.register(Post)
+admin.site.register(Comment)
 admin.site.register(Like)
-
-
-@admin.register(Post)
-class PostAdmin(CoreModelAdmin):
-    list_display = ("title", "created_by", "created_at", "updated_at")
-    search_fields = (
-        "title",
-        "created_by__email",
-    )
-    ordering = (
-        "created_by",
-        "-updated_at",
-    )
-
-
-@admin.register(Comment)
-class CommentAdmin(CoreModelAdmin):
-    list_display = (
-        "post",
-        "content",
-        "created_by",
-        "created_at",
-        "updated_at",
-    )
-    search_fields = ("created_by__email",)
-    ordering = (
-        "post",
-        "-updated_at",
-    )

@@ -1,14 +1,13 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.utils.translation import gettext as _
+from django.contrib.auth.admin import UserAdmin
+from django.utils.translation import gettext_lazy as _
 
-from .models import User, UserProfile, UserProfileFollow
+from .models import User, UserProfile
+
+admin.site.register(UserProfile, admin.ModelAdmin)
 
 
-@admin.register(User)
-class UserAdmin(DjangoUserAdmin):
-    """Define admin model for custom User model with no username field."""
-
+class EmailUserAdmin(UserAdmin):
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (_("Personal info"), {"fields": ("first_name", "last_name")}),
@@ -21,7 +20,7 @@ class UserAdmin(DjangoUserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
-                )
+                ),
             },
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
@@ -36,26 +35,13 @@ class UserAdmin(DjangoUserAdmin):
         ),
     )
     list_display = ("email", "first_name", "last_name", "is_staff")
+    list_filter = ("is_staff", "is_superuser", "is_active", "groups")
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)
+    filter_horizontal = (
+        "groups",
+        "user_permissions",
+    )
 
 
-class CoreModelAdmin(admin.ModelAdmin):
-    def save_model(self, request, obj, form, change):
-        if getattr(obj, "created_by", None) is None:
-            obj.created_by = request.user
-        obj.save()
-
-
-@admin.register(UserProfile)
-class UserProfileAdmin(CoreModelAdmin):
-    list_display = ("created_by", "bio", "created_at", "updated_at")
-    search_fields = ("created_by__email",)
-    ordering = ("created_by", "-updated_at",)
-
-
-@admin.register(UserProfileFollow)
-class UserProfileFollowAdmin(CoreModelAdmin):
-    list_display = ("created_by", "following", "created_at", "updated_at")
-    search_fields = ("created_by__email",)
-    ordering = ("created_by", "-updated_at",)
+admin.site.register(User, EmailUserAdmin)
