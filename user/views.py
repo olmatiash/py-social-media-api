@@ -20,7 +20,8 @@ from user.serializers import (
     UserProfileListSerializer,
     UserProfileImageSerializer,
     UserProfileSerializer,
-    UserProfileFollowSerializer
+    UserProfileFollowSerializer,
+    LogoutSerializer
 )
 
 from social_media_core.permissions import IsOwnerOrReadOnly
@@ -41,6 +42,8 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
 
 class LogoutView(views.APIView):
+    serializer_class = LogoutSerializer
+
     def post(self, request):
         try:
             refresh_token = request.data["refresh_token"]
@@ -53,6 +56,8 @@ class LogoutView(views.APIView):
 
 
 class LogoutAllView(views.APIView):
+    serializer_class = LogoutSerializer
+
     def post(self, request):
         tokens = OutstandingToken.objects.filter(user_id=request.user.id)
         for token in tokens:

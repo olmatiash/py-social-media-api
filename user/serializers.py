@@ -1,3 +1,5 @@
+from typing import List
+
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
@@ -82,11 +84,11 @@ class UserProfileSerializer(CoreModelSerializer, serializers.ModelSerializer):
             "followings",
         ) + CoreModelSerializer.Meta.fields
 
-    def get_followings(self, obj):
+    def get_followings(self, obj) -> List[int]:
         qs = UserProfileFollow.objects.filter(created_by=obj.created_by)
         return [follow.following_id for follow in qs]
 
-    def get_followers(self, obj):
+    def get_followers(self, obj) -> List[int]:
         qs = UserProfileFollow.objects.filter(following=obj.created_by)
         return [follow.created_by_id for follow in qs]
 
@@ -114,3 +116,7 @@ class UserProfileDetailSerializer(UserProfileSerializer):
     class Meta:
         model = UserProfile
         fields = UserProfileSerializer.Meta.fields + ("posts", "followings")
+
+
+class LogoutSerializer(serializers.Serializer):
+    pass
