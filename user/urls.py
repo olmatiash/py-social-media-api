@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -25,6 +25,7 @@ urlpatterns = [
     path("me/", ManageUserView.as_view(), name="manage"),
     path("logout/", LogoutView.as_view(), name="auth_logout"),
     path("logout_all/", LogoutAllView.as_view(), name="auth_logout_all"),
+    path("", include(router.urls)),
 ]
 
 app_name = "user"
