@@ -47,7 +47,7 @@ class Comment(CoreModel):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="comments"
     )
-    content = models.TextField()
+    content = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.id}: {self.content} (by {self.created_by})"
