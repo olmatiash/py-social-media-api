@@ -9,7 +9,6 @@
 * **Follow/Unfollow System:** Establish connections by following and unfollowing other users. Track the list of followers and those being followed.
 * **Post Creation and Retrieval:** Users can craft text-based posts and optionally attach images. Retrieve personal posts and those from followed users.
 * **Likes and Comments:** Users have the option to like and unlike posts, view their liked posts, and engage with comments on posts.
-* **Scheduled Post Creation:** Schedule post creation using Celery, allowing users to select the time for post publication.
 * **API Permissions:** Strictly enforce permissions, ensuring that only authenticated users can create posts, like content, and follow/unfollow users. Users retain control over their own posts, comments, and profiles.
 * **API Documentation:** Thorough documentation, available through the Swagger UI, provides clear instructions on each endpoint. Sample API requests and responses are included.
 ## DB structure 
